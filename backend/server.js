@@ -7,7 +7,7 @@ import connectDB from "./src/lib/db.js";
 
 //routes
 import authRoute from "./src/routes/auth.route.js";
-import messageRoute from "./src/routes/auth.route.js";
+import messageRoute from "./src/routes/message.route.js";
 
 dotenv.config();
 
