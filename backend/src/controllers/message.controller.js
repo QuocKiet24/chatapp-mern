@@ -1,5 +1,6 @@
 import User from "../models/user.model.js";
 import Message from "../models/message.model.js";
+import cloudinary from "../lib/cloudinary.js";
 
 export const getUserForSidebar = async (req, res) => {
   try {
@@ -22,21 +23,15 @@ export const getMessages = async (req, res) => {
 
     const messages = await Message.find({
       $or: [
-        {
-          senderId: myId,
-          receiverId: userToChatId,
-        },
-        {
-          senderId: userToChatId,
-          receiverId: myId,
-        },
+        { senderId: myId, receiverId: userToChatId },
+        { senderId: userToChatId, receiverId: myId },
       ],
     });
 
-    res.status(200).json({ messages });
+    res.status(200).json(messages);
   } catch (error) {
-    console.log("Error in getMessages controller", error.message);
-    res.status(500).json({ message: "Internal Server Error" });
+    console.log("Error in getMessages controller: ", error.message);
+    res.status(500).json({ error: "Internal server error" });
   }
 };
 
@@ -48,7 +43,7 @@ export const sendMessage = async (req, res) => {
     //upload base64 image to cloundinary
     let imageUrl;
     if (image) {
-      const uploadResponse = await cloundinary.uploader.upload(image);
+      const uploadResponse = await cloudinary.uploader.upload(image);
       imageUrl = uploadResponse.secure_url;
     }
 
