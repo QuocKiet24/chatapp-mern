@@ -14,10 +14,10 @@ import { Toaster } from "react-hot-toast";
 function App() {
   const { checkAuth, authUser, isCheckingAuth } = useAuthStore();
   const { theme } = useThemeStore();
+
   useEffect(() => {
     checkAuth();
   }, [checkAuth]);
-  console.log(authUser);
 
   if (isCheckingAuth && !authUser) {
     return (
